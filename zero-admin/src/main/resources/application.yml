@@ -1,0 +1,73 @@
+# 服务端口
+server:
+  port: 9999
+  servlet:
+    context-path: /zero
+
+# 服务应用名
+spring:
+  application:
+    name: zero
+
+  # 数据库连接信息
+  datasource:
+    url: jdbc:mysql://192.168.20.128:3306/zero?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: password
+
+ # redis连接信息
+  redis:
+    # 连接地址
+    host: "192.168.20.128"
+    # 端口
+    port: 6379
+    # 数据库
+    database: 6
+    # 用户名，如果有
+    #username:
+    # 密码，如果有
+    #password:
+    # 连接超时
+    connect-timeout: 5s
+    # 读超时
+    timeout: 5s
+
+    # Lettuce 客户端的配置
+    lettuce:
+      # 连接池配置
+      pool:
+        # 最小空闲连接
+        min-idle: 0
+        # 最大空闲连接
+        max-idle: 8
+        # 最大活跃连接
+        max-active: 8
+        # 从连接池获取连接 最大超时时间，小于等于0则表示不会超时
+        max-wait: -1ms
+
+
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    # 返回类型为Map,显示null对应的字段
+    call-setters-on-nulls: true
+
+# token配置
+token:
+  # 令牌自定义标识
+  header: Authorization
+  # 令牌密钥
+  secret: abcdefghijklmnopqrstuvwxyz
+  # 令牌有效期（默认30分钟）
+  expireTime: 30
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, beans
+
+
+
