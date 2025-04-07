@@ -104,7 +104,7 @@ export default {
     }
   },
   created() {
-    this.getCode();
+    // this.getCode();
     this.getCookie();
   },
   methods: {
