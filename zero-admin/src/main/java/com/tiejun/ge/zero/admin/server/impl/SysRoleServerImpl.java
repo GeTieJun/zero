@@ -41,7 +41,7 @@ public class SysRoleServerImpl implements SysRoleServer {
     }
 
     @Override
-    public SysRoleBO selectById(SysRoleBO sysRoleBO) {
-        return roleRepository.selectById(sysRoleBO.getRoleId());
+    public SysRoleBO selectById(Long sysRoleId) {
+        return roleRepository.selectById(sysRoleId);
     }
 }

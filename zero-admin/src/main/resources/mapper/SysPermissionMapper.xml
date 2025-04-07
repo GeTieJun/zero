@@ -16,20 +16,9 @@
             su.user_id = #{userId} and sm.menu_type = 'C' and su.del_flag = '0' and sr.del_flag = '0' and sm.del_flag = '0';
         </where>
     </select>
-    <select id="selectSysRoleByUserId" resultType="com.tiejun.ge.zero.admin.domain.bo.SysRoleBO">
+    <select id="selectSysRoleByUserId" resultType="java.lang.String">
         select
-        sr.role_id,
-        sr.role_name,
-        sr.role_key,
-        sr.role_sort,
-        sr.data_scope,
-        sr.status,
-        sr.del_flag,
-        sr.create_by,
-        sr.create_time,
-        sr.update_by,
-        sr.update_time,
-        sr.remark
+        sr.role_key
         from
         sys_role sr
         left join sys_user_role sur on sr.role_id = sur.role_id

@@ -7,6 +7,9 @@ import com.tiejun.ge.zero.admin.domain.bo.SysRoleBO;
 import com.tiejun.ge.zero.admin.domain.po.SysRole;
 import com.tiejun.ge.zero.admin.mapper.SysRoleMapper;
 import com.tiejun.ge.zero.admin.repository.SysRoleRepository;
+import com.tiejun.ge.zero.common.exception.enums.SystemExceptionEnum;
+import com.tiejun.ge.zero.common.exception.module.SystemException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
@@ -20,6 +23,7 @@ import java.util.stream.Collectors;
  * @create: 2024-12-06 11:07
  **/
 @Repository
+@Slf4j
 public class SysRoleRepositoryImpl implements SysRoleRepository {
 
     @Resource
@@ -40,7 +44,11 @@ public class SysRoleRepositoryImpl implements SysRoleRepository {
     @Override
     public SysRoleBO selectById(Long id) {
         SysRole sysRole = sysRoleMapper.selectById(id);
-        return ObjectUtil.isNull(sysRole) ? null : sysRole.toBO();
+        if (ObjectUtil.isNull(sysRole)) {
+            log.error(">>SysRoleRepositoryImpl selectById method. find object is empty");
+            throw new SystemException(SystemExceptionEnum.PARAM_ERROR);
+        }
+        return sysRole.toBO();
     }
 
     @Override

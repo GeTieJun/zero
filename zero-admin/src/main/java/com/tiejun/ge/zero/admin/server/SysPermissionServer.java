@@ -4,5 +4,7 @@ import java.util.Set;
 
 public interface SysPermissionServer {
 
-    Set<String> selectPermsByUserId(Long id);
+    Set<String> selectPermsByUserId(Long userId);
+
+    Set<String> selectRolesByUserId(Long userId);
 }

@@ -14,5 +14,5 @@ public interface SysRoleServer {
 
     List<SysRoleBO> selectList(SysRoleBO sysRoleBO);
 
-    SysRoleBO selectById(SysRoleBO sysRoleBO);
+    SysRoleBO selectById(Long sysRoleId);
 }

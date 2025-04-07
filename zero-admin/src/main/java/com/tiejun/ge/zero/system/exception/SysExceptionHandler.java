@@ -35,6 +35,7 @@ public class SysExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
     public AjaxResult ExceptionHandler(HttpServletRequest request, Exception e){
+        log.error("发生业务异常！原因是：{}", e.getMessage());
         return AjaxResult.error(HttpStatus.ERROR, "系统处理异常，请联系管理员！");
     }
 
