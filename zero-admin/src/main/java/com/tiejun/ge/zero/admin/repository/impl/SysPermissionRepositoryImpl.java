@@ -1,10 +1,12 @@
 package com.tiejun.ge.zero.admin.repository.impl;
 
+import com.tiejun.ge.zero.admin.domain.bo.SysMenuBO;
 import com.tiejun.ge.zero.admin.mapper.SysPermissionMapper;
 import com.tiejun.ge.zero.admin.repository.SysPermissionRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -27,5 +29,15 @@ public class SysPermissionRepositoryImpl implements SysPermissionRepository {
     @Override
     public Set<String> selectSysRoleByUserId(Long userId) {
         return sysPermissionMapper.selectSysRoleByUserId(userId);
+    }
+
+    @Override
+    public List<SysMenuBO> selectAllSysMenu() {
+        return sysPermissionMapper.selectAllSysMenu();
+    }
+
+    @Override
+    public List<SysMenuBO> selectSysMenuByUserId(Long userId) {
+        return sysPermissionMapper.selectSysMenuByUserId(userId);
     }
 }

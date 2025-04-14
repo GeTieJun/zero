@@ -1,6 +1,7 @@
 package com.tiejun.ge.zero.admin.controller;
 
 import com.tiejun.ge.zero.admin.app.SysLoginApp;
+import com.tiejun.ge.zero.admin.app.SysMenuApp;
 import com.tiejun.ge.zero.admin.app.SysUserApp;
 import com.tiejun.ge.zero.admin.domain.dto.UserLoginDTO;
 import com.tiejun.ge.zero.common.response.AjaxResult;
@@ -27,6 +28,9 @@ public class SysLoginController {
     @Resource
     private SysUserApp sysUserApp;
 
+    @Resource
+    private SysMenuApp sysMenuApp;
+
     /**
      * 登录接口
      * @param userLoginDTO
@@ -45,9 +49,9 @@ public class SysLoginController {
         return AjaxResult.success(sysUserApp.getUserInfo());
     }
 
-//    @GetMapping("getRouters")
-//    public AjaxResult getRouters() {
-//        return AjaxResult.success(sysMenu.getUserInfo());
-//    }
+    @GetMapping("/getRouters")
+    public AjaxResult getRouters() {
+        return AjaxResult.success(sysMenuApp.getRouters());
+    }
 
 }

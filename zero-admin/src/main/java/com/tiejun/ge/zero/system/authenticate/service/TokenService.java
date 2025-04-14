@@ -2,7 +2,7 @@ package com.tiejun.ge.zero.system.authenticate.service;
 
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
-import com.tiejun.ge.zero.common.Constants;
+import com.tiejun.ge.zero.common.constant.Constants;
 import com.tiejun.ge.zero.common.redis.RedisCache;
 import com.tiejun.ge.zero.system.authenticate.domain.LoginUser;
 import io.jsonwebtoken.Claims;

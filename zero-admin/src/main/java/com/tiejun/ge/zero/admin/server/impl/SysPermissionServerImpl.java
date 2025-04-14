@@ -1,6 +1,7 @@
 package com.tiejun.ge.zero.admin.server.impl;
 
 import cn.hutool.core.util.ObjectUtil;
+import com.tiejun.ge.zero.admin.domain.bo.SysMenuBO;
 import com.tiejun.ge.zero.admin.repository.SysPermissionRepository;
 import com.tiejun.ge.zero.admin.server.SysPermissionServer;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -43,6 +45,16 @@ public class SysPermissionServerImpl implements SysPermissionServer {
     @Override
     public Set<String> selectRolesByUserId(Long userId) {
         return sysPermissionRepository.selectSysRoleByUserId(userId);
+    }
+
+    @Override
+    public List<SysMenuBO> selectAllSysMenu() {
+        return sysPermissionRepository.selectAllSysMenu();
+    }
+
+    @Override
+    public List<SysMenuBO> selectSysMenuByUserId(Long userId) {
+        return sysPermissionRepository.selectSysMenuByUserId(userId);
     }
 
 }
