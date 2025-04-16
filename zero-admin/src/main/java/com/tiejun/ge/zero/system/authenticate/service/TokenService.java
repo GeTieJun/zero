@@ -1,6 +1,7 @@
 package com.tiejun.ge.zero.system.authenticate.service;
 
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.tiejun.ge.zero.common.constant.Constants;
 import com.tiejun.ge.zero.common.redis.RedisCache;
@@ -146,6 +147,17 @@ public class TokenService {
         if (expireTime - currentTime <= MILLIS_MINUTE_TEN)
         {
             refreshToken(loginUser);
+        }
+    }
+
+    /**
+     * 清理登录用户信息
+     * @param token
+     */
+    public void delLoginUser(String token) {
+        if (ObjectUtil.isNotEmpty(token)) {
+            String tokenKey = getTokenKey(token);
+            redisCache.deleteObject(tokenKey);
         }
     }
 }

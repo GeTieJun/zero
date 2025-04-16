@@ -1,8 +1,8 @@
 package com.tiejun.ge.zero.system.authenticate;
 
 import com.tiejun.ge.zero.system.authenticate.filter.AuthenticationEntryPointImpl;
-import com.tiejun.ge.zero.system.authenticate.filter.Filter1;
 import com.tiejun.ge.zero.system.authenticate.filter.JwtAuthenticationTokenFilter;
+import com.tiejun.ge.zero.system.authenticate.filter.LogoutSuccessHandlerImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -36,9 +36,9 @@ public class SecurityConfig {
 
     @Resource
     private JwtAuthenticationTokenFilter authenticationTokenFilter;
-
+    
     @Resource
-    private Filter1 filter1;
+    private LogoutSuccessHandlerImpl logoutSuccessHandler;
 
     /**
      * 自定义用户认证逻辑
@@ -62,8 +62,8 @@ public class SecurityConfig {
                     requests.antMatchers("/login").permitAll();
                     requests.anyRequest().authenticated();
                         })
+                .logout(logout -> logout.logoutUrl("/logout").logoutSuccessHandler(logoutSuccessHandler))
                 .addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(filter1, JwtAuthenticationTokenFilter.class)
                 .build();
     }
 
