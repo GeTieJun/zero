@@ -1,5 +1,6 @@
 package com.tiejun.ge.zero.admin.controller;
 
+import cn.hutool.core.map.MapUtil;
 import com.tiejun.ge.zero.admin.app.SysLoginApp;
 import com.tiejun.ge.zero.admin.app.SysMenuApp;
 import com.tiejun.ge.zero.admin.app.SysUserApp;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 
 /**
  * @program: zero
@@ -34,24 +36,30 @@ public class SysLoginController {
     /**
      * 登录接口
      * @param userLoginDTO
-     * @return
+     * @return AjaxResult
      */
     @PostMapping("/login")
     public AjaxResult login(@RequestBody UserLoginDTO userLoginDTO) {
-        AjaxResult ajaxResult = AjaxResult.success();
         String token = sysLoginApp.login(userLoginDTO);
-        ajaxResult.put("token", token);
-        return ajaxResult;
+        return AjaxResult.success(MapUtil.createMap(HashMap.class).put("token", token));
     }
 
+    /**
+     * 获取用户 角色 权限信息
+     * @return AjaxResult
+     */
     @GetMapping("/getInfo")
     public AjaxResult getInfo() {
-        return AjaxResult.success(sysUserApp.getUserInfo());
+        return AjaxResult.success(sysLoginApp.getUserInfo());
     }
 
+    /**
+     * 获取用户对应的权限菜单信息
+     * @return AjaxResult
+     */
     @GetMapping("/getRouters")
     public AjaxResult getRouters() {
-        return AjaxResult.success(sysMenuApp.getRouters());
+        return AjaxResult.success(sysLoginApp.getRouters());
     }
 
 }
