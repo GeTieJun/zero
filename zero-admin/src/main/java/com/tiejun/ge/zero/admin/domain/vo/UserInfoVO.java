@@ -1,6 +1,6 @@
 package com.tiejun.ge.zero.admin.domain.vo;
 
-import com.tiejun.ge.zero.admin.domain.po.SysUser;
+import com.tiejun.ge.zero.admin.domain.bo.SysUserBO;
 import lombok.Data;
 
 import java.util.Set;
@@ -17,7 +17,7 @@ public class UserInfoVO {
     /**
      * 用户信息
      */
-    private SysUser user;
+    private SysUserBO user;
 
     /**
      * 用户角色

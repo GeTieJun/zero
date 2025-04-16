@@ -1,6 +1,7 @@
 package com.tiejun.ge.zero.system.authenticate.domain;
 
-import com.tiejun.ge.zero.admin.domain.po.SysUser;
+import com.tiejun.ge.zero.admin.domain.bo.SysUserBO;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -14,11 +15,12 @@ import java.util.Set;
  * @author: getiejun
  * @create: 2024-12-07 16:44
  **/
+@Data
 public class LoginUser implements UserDetails {
 
     public LoginUser(){}
 
-    public LoginUser(SysUser user, Set<String> permissions) {
+    public LoginUser(SysUserBO user, Set<String> permissions) {
         this.user = user;
         this.permissions = permissions;
     }
@@ -31,7 +33,7 @@ public class LoginUser implements UserDetails {
     /**
      * 系统用户
      */
-    private SysUser user;
+    private SysUserBO user;
 
     /**
      * 权限列表
@@ -47,46 +49,6 @@ public class LoginUser implements UserDetails {
      * 过期时间
      */
     private Long expireTime;
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public SysUser getUser() {
-        return user;
-    }
-
-    public void setUser(SysUser user) {
-        this.user = user;
-    }
-
-    public Set<String> getPermissions() {
-        return permissions;
-    }
-
-    public Long getLoginTime() {
-        return loginTime;
-    }
-
-    public void setLoginTime(Long loginTime) {
-        this.loginTime = loginTime;
-    }
-
-    public Long getExpireTime() {
-        return expireTime;
-    }
-
-    public void setExpireTime(Long expireTime) {
-        this.expireTime = expireTime;
-    }
-
-    public void setPermissions(Set<String> permissions) {
-        this.permissions = permissions;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

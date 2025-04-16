@@ -16,7 +16,7 @@ public class SysUserBO {
     /**
      * 用户id
      */
-    private Long userId;
+    private Long id;
 
     /**
      * 用户账号

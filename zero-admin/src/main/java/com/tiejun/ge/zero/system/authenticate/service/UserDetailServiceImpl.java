@@ -1,9 +1,7 @@
 package com.tiejun.ge.zero.system.authenticate.service;
 
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.tiejun.ge.zero.admin.domain.bo.SysUserBO;
-import com.tiejun.ge.zero.admin.domain.po.SysUser;
 import com.tiejun.ge.zero.admin.server.SysPermissionServer;
 import com.tiejun.ge.zero.admin.server.SysUserServer;
 import com.tiejun.ge.zero.common.enums.common.DelFlagEnum;
@@ -21,6 +19,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Set;
 
 /**
  * @program: zero
@@ -62,8 +61,8 @@ public class UserDetailServiceImpl implements UserDetailsService {
      * @return UserDetails
      */
     private UserDetails createUser(SysUserBO sysUserBO) {
-        SysUser sysUser = BeanUtil.copyProperties(sysUserBO, SysUser.class);
-        return new LoginUser(sysUser, sysPermissionServer.selectPermsByUserId(sysUserBO.getUserId()));
+        Set<String> permissions = sysPermissionServer.selectPermsByUserId(sysUserBO.getId());
+        return new LoginUser(sysUserBO, permissions);
     }
 
     private void checkUser(SysUserBO sysUserDB) {

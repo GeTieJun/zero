@@ -41,7 +41,7 @@ public class SysLoginController {
     @PostMapping("/login")
     public AjaxResult login(@RequestBody UserLoginDTO userLoginDTO) {
         String token = sysLoginApp.login(userLoginDTO);
-        return AjaxResult.success(MapUtil.createMap(HashMap.class).put("token", token));
+        return AjaxResult.success(MapUtil.builder(new HashMap<>()).put("token", token).build());
     }
 
     /**
@@ -60,6 +60,11 @@ public class SysLoginController {
     @GetMapping("/getRouters")
     public AjaxResult getRouters() {
         return AjaxResult.success(sysLoginApp.getRouters());
+    }
+
+
+    public static void main(String[] args) {
+        System.out.println(MapUtil.builder(new HashMap<>()).put("token", "123456").build().toString());
     }
 
 }

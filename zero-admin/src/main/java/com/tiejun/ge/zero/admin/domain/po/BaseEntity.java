@@ -14,6 +14,11 @@ import java.util.Date;
 public class BaseEntity {
 
     /**
+     * id
+     */
+    private Long id;
+
+    /**
      * 创建者
      */
     private String createBy;

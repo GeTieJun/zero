@@ -4,8 +4,8 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.tiejun.ge.zero.admin.domain.bo.SysMenuBO;
+import com.tiejun.ge.zero.admin.domain.bo.SysUserBO;
 import com.tiejun.ge.zero.admin.domain.dto.UserLoginDTO;
-import com.tiejun.ge.zero.admin.domain.po.SysUser;
 import com.tiejun.ge.zero.admin.domain.vo.MetaVo;
 import com.tiejun.ge.zero.admin.domain.vo.RouterVo;
 import com.tiejun.ge.zero.admin.domain.vo.UserInfoVO;
@@ -86,19 +86,17 @@ public class SysLoginApp {
      */
     public UserInfoVO getUserInfo() {
         // 获取当前用户
-        SysUser user = SecurityUtils.getLoginUser().getUser();
+        SysUserBO user = SecurityUtils.getLoginUser().getUser();
         // 获取当前用户权限
-        Set<String> permissions = sysPermissionServer.selectPermsByUserId(user.getUserId());
+        Set<String> permissions = sysPermissionServer.selectPermsByUserId(user.getId());
         // 获取当前用户角色
-        Set<String> roles = sysPermissionServer.selectRolesByUserId(user.getUserId());
+        Set<String> roles = sysPermissionServer.selectRolesByUserId(user.getId());
 
-        UserInfoVO userInfoVO = BeanBuilder.of(UserInfoVO.class)
+        return BeanBuilder.of(UserInfoVO.class)
                 .with(UserInfoVO::setUser, user)
                 .with(UserInfoVO::setPermissions, permissions)
                 .with(UserInfoVO::setRoles, roles)
                 .build();
-
-        return userInfoVO;
     }
 
     /**
@@ -107,14 +105,14 @@ public class SysLoginApp {
      * @return List<RouterVo>
      */
     public List<RouterVo> getRouters() {
-        SysUser user = SecurityUtils.getLoginUser().getUser();
+        SysUserBO user = SecurityUtils.getLoginUser().getUser();
         List<SysMenuBO> sysMenuBOList;
-        if (SecurityUtils.isAdmin(user.getUserId())) {
+        if (SecurityUtils.isAdmin(user.getId())) {
             sysMenuBOList = sysPermissionServer.selectAllSysMenu();
         } else {
-            sysMenuBOList = sysPermissionServer.selectSysMenuByUserId(user.getUserId());
+            sysMenuBOList = sysPermissionServer.selectSysMenuByUserId(user.getId());
         }
-        List<SysMenuBO> childPerms = getChildPerms(sysMenuBOList, 0);
+        List<SysMenuBO> childPerms = getChildPerms(sysMenuBOList);
         return buildMenus(childPerms);
     }
 
@@ -122,17 +120,15 @@ public class SysLoginApp {
      * 根据父节点的ID获取所有子节点
      *
      * @param list     分类表
-     * @param parentId 传入的父节点ID
      * @return String
      */
-    private List<SysMenuBO> getChildPerms(List<SysMenuBO> list, int parentId) {
-        List<SysMenuBO> returnList = new ArrayList<SysMenuBO>();
-        for (Iterator<SysMenuBO> iterator = list.iterator(); iterator.hasNext(); ) {
-            SysMenuBO t = (SysMenuBO) iterator.next();
+    private List<SysMenuBO> getChildPerms(List<SysMenuBO> list) {
+        List<SysMenuBO> returnList = new ArrayList<>();
+        for (SysMenuBO sysMenuBO : list) {
             // 一、根据传入的某个父节点ID,遍历该父节点的所有子节点
-            if (t.getParentId() == parentId) {
-                recursionFn(list, t);
-                returnList.add(t);
+            if (sysMenuBO.getParentId() == 0) {
+                recursionFn(list, sysMenuBO);
+                returnList.add(sysMenuBO);
             }
         }
         return returnList;
@@ -159,15 +155,13 @@ public class SysLoginApp {
      * 得到子节点列表
      */
     private List<SysMenuBO> getChildList(List<SysMenuBO> list, SysMenuBO t) {
-        List<SysMenuBO> tlist = new ArrayList<SysMenuBO>();
-        Iterator<SysMenuBO> it = list.iterator();
-        while (it.hasNext()) {
-            SysMenuBO n = (SysMenuBO) it.next();
-            if (n.getParentId().longValue() == t.getMenuId().longValue()) {
-                tlist.add(n);
+        List<SysMenuBO> sysMenuBOList = new ArrayList<>();
+        for (SysMenuBO sysMenuBO : list) {
+            if (sysMenuBO.getParentId().longValue() == t.getMenuId().longValue()) {
+                sysMenuBOList.add(sysMenuBO);
             }
         }
-        return tlist;
+        return sysMenuBOList;
     }
 
     /**
@@ -184,7 +178,7 @@ public class SysLoginApp {
      * @return 路由列表
      */
     private List<RouterVo> buildMenus(List<SysMenuBO> menus) {
-        List<RouterVo> routers = new LinkedList<RouterVo>();
+        List<RouterVo> routers = new LinkedList<>();
         for (SysMenuBO menu : menus) {
             RouterVo router = new RouterVo();
             router.setHidden("1".equals(menu.getVisible()));
@@ -200,7 +194,7 @@ public class SysLoginApp {
                 router.setChildren(buildMenus(cMenus));
             } else if (isMenuFrame(menu)) {
                 router.setMeta(null);
-                List<RouterVo> childrenList = new ArrayList<RouterVo>();
+                List<RouterVo> childrenList = new ArrayList<>();
                 RouterVo children = new RouterVo();
                 children.setPath(menu.getPath());
                 children.setComponent(menu.getComponent());
@@ -212,7 +206,7 @@ public class SysLoginApp {
             } else if (menu.getParentId().intValue() == 0 && isInnerLink(menu)) {
                 router.setMeta(new MetaVo(menu.getMenuName(), menu.getIcon()));
                 router.setPath("/");
-                List<RouterVo> childrenList = new ArrayList<RouterVo>();
+                List<RouterVo> childrenList = new ArrayList<>();
                 RouterVo children = new RouterVo();
                 String routerPath = innerLinkReplaceEach(menu.getPath());
                 children.setPath(routerPath);
