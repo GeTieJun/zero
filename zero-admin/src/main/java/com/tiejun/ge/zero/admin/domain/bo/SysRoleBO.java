@@ -11,7 +11,7 @@ import lombok.Data;
 @Data
 public class SysRoleBO {
 
-    private Long roleId;
+    private Long id;
 
     private String roleName;
 

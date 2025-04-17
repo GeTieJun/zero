@@ -157,7 +157,7 @@ public class SysLoginApp {
     private List<SysMenuBO> getChildList(List<SysMenuBO> list, SysMenuBO t) {
         List<SysMenuBO> sysMenuBOList = new ArrayList<>();
         for (SysMenuBO sysMenuBO : list) {
-            if (sysMenuBO.getParentId().longValue() == t.getMenuId().longValue()) {
+            if (sysMenuBO.getParentId().longValue() == t.getId().longValue()) {
                 sysMenuBOList.add(sysMenuBO);
             }
         }
