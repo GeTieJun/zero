@@ -36,10 +36,10 @@ import DictTag from '@/components/DictTag'
 // 头部标签组件
 import VueMeta from 'vue-meta'
 // 字典数据组件
-import DictData from '@/components/DictData'
+// import DictData from '@/components/DictData'
 
 // 全局方法挂载
-Vue.prototype.getDicts = getDicts
+// Vue.prototype.getDicts = getDicts
 Vue.prototype.getConfigKey = getConfigKey
 Vue.prototype.parseTime = parseTime
 Vue.prototype.resetForm = resetForm
@@ -50,7 +50,7 @@ Vue.prototype.download = download
 Vue.prototype.handleTree = handleTree
 
 // 全局组件挂载
-Vue.component('DictTag', DictTag)
+// Vue.component('DictTag', DictTag)
 Vue.component('Pagination', Pagination)
 Vue.component('RightToolbar', RightToolbar)
 Vue.component('Editor', Editor)
@@ -61,7 +61,7 @@ Vue.component('ImagePreview', ImagePreview)
 Vue.use(directive)
 Vue.use(plugins)
 Vue.use(VueMeta)
-DictData.install()
+// DictData.install()
 
 /**
  * If you don't want to use mock-server

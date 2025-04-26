@@ -39,9 +39,9 @@
               @keyup.enter.native="handleQuery"
             />
           </el-form-item>
-          <el-form-item label="手机号码" prop="phonenumber">
+          <el-form-item label="手机号码" prop="phoneNumber">
             <el-input
-              v-model="queryParams.phonenumber"
+              v-model="queryParams.phoneNumber"
               placeholder="请输入手机号码"
               clearable
               style="width: 240px"
@@ -55,12 +55,12 @@
               clearable
               style="width: 240px"
             >
-              <el-option
-                v-for="dict in dict.type.sys_normal_disable"
-                :key="dict.value"
-                :label="dict.label"
-                :value="dict.value"
-              />
+<!--              <el-option-->
+<!--                v-for="dict in dict.type.sys_normal_disable"-->
+<!--                :key="dict.value"-->
+<!--                :label="dict.label"-->
+<!--                :value="dict.value"-->
+<!--              />-->
             </el-select>
           </el-form-item>
           <el-form-item label="创建时间">
@@ -138,11 +138,11 @@
 
         <el-table v-loading="loading" :data="userList" @selection-change="handleSelectionChange">
           <el-table-column type="selection" width="50" align="center" />
-          <el-table-column label="用户编号" align="center" key="userId" prop="userId" v-if="columns[0].visible" />
+          <el-table-column label="用户编号" align="center" key="id" prop="id" v-if="columns[0].visible" />
           <el-table-column label="用户名称" align="center" key="userName" prop="userName" v-if="columns[1].visible" :show-overflow-tooltip="true" />
           <el-table-column label="用户昵称" align="center" key="nickName" prop="nickName" v-if="columns[2].visible" :show-overflow-tooltip="true" />
           <el-table-column label="部门" align="center" key="deptName" prop="dept.deptName" v-if="columns[3].visible" :show-overflow-tooltip="true" />
-          <el-table-column label="手机号码" align="center" key="phonenumber" prop="phonenumber" v-if="columns[4].visible" width="120" />
+          <el-table-column label="手机号码" align="center" key="phoneNumber" prop="phoneNumber" v-if="columns[4].visible" width="120" />
           <el-table-column label="状态" align="center" key="status" v-if="columns[5].visible">
             <template slot-scope="scope">
               <el-switch
@@ -164,7 +164,7 @@
             width="160"
             class-name="small-padding fixed-width"
           >
-            <template slot-scope="scope" v-if="scope.row.userId !== 1">
+            <template slot-scope="scope" v-if="scope.row.id !== 1">
               <el-button
                 size="mini"
                 type="text"
@@ -219,8 +219,8 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="手机号码" prop="phonenumber">
-              <el-input v-model="form.phonenumber" placeholder="请输入手机号码" maxlength="11" />
+            <el-form-item label="手机号码" prop="phoneNumber">
+              <el-input v-model="form.phoneNumber" placeholder="请输入手机号码" maxlength="11" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -231,12 +231,12 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item v-if="form.userId == undefined" label="用户名称" prop="userName">
+            <el-form-item v-if="form.id == undefined" label="用户名称" prop="userName">
               <el-input v-model="form.userName" placeholder="请输入用户名称" maxlength="30" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item v-if="form.userId == undefined" label="用户密码" prop="password">
+            <el-form-item v-if="form.id == undefined" label="用户密码" prop="password">
               <el-input v-model="form.password" placeholder="请输入用户密码" type="password" maxlength="20" show-password/>
             </el-form-item>
           </el-col>
@@ -245,23 +245,23 @@
           <el-col :span="12">
             <el-form-item label="用户性别">
               <el-select v-model="form.sex" placeholder="请选择性别">
-                <el-option
-                  v-for="dict in dict.type.sys_user_sex"
-                  :key="dict.value"
-                  :label="dict.label"
-                  :value="dict.value"
-                ></el-option>
+<!--                <el-option-->
+<!--                  v-for="dict in dict.type.sys_user_sex"-->
+<!--                  :key="dict.value"-->
+<!--                  :label="dict.label"-->
+<!--                  :value="dict.value"-->
+<!--                ></el-option>-->
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="状态">
               <el-radio-group v-model="form.status">
-                <el-radio
-                  v-for="dict in dict.type.sys_normal_disable"
-                  :key="dict.value"
-                  :label="dict.value"
-                >{{dict.label}}</el-radio>
+<!--                <el-radio-->
+<!--                  v-for="dict in dict.type.sys_normal_disable"-->
+<!--                  :key="dict.value"-->
+<!--                  :label="dict.value"-->
+<!--                >{{dict.label}}</el-radio>-->
               </el-radio-group>
             </el-form-item>
           </el-col>
@@ -341,19 +341,19 @@
 </template>
 
 <script>
-import { listUser, getUser, delUser, addUser, updateUser, resetUserPwd, changeUserStatus, deptTreeSelect } from "@/api/system/user";
+import { listUser, getUser, delUser, addUsdicter, updateUser, resetUserPwd, changeUserStatus, deptTreeSelect } from "@/api/system/user";
 import { getToken } from "@/utils/auth";
 import Treeselect from "@riophae/vue-treeselect";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 
 export default {
   name: "User",
-  dicts: ['sys_normal_disable', 'sys_user_sex'],
+  // dicts: ['sys_normal_disable', 'sys_user_sex'],
   components: { Treeselect },
   data() {
     return {
       // 遮罩层
-      loading: true,
+      loading: false,
       // 选中数组
       ids: [],
       // 非单个禁用
@@ -408,7 +408,7 @@ export default {
         pageNum: 1,
         pageSize: 10,
         userName: undefined,
-        phonenumber: undefined,
+        phoneNumber: undefined,
         status: undefined,
         deptId: undefined
       },
@@ -443,7 +443,7 @@ export default {
             trigger: ["blur", "change"]
           }
         ],
-        phonenumber: [
+        phoneNumber: [
           {
             pattern: /^1[3|4|5|6|7|8|9][0-9]\d{8}$/,
             message: "请输入正确的手机号码",
@@ -460,19 +460,22 @@ export default {
     }
   },
   created() {
+    console.log("qqqqabcdef")
     this.getList();
-    this.getDeptTree();
-    this.getConfigKey("sys.user.initPassword").then(response => {
-      this.initPassword = response.msg;
-    });
+    // this.getDeptTree();
+    // this.getConfigKey("sys.user.initPassword").then(response => {
+    //   this.initPassword = response.msg;
+    // });
   },
   methods: {
     /** 查询用户列表 */
     getList() {
       this.loading = true;
+      console.log("abcdef")
+      // console.log(...this.queryParams)
       listUser(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
-          this.userList = response.rows;
-          this.total = response.total;
+          this.userList = response.data.records;
+          this.total = response.data.total;
           this.loading = false;
         }
       );
@@ -497,7 +500,7 @@ export default {
     handleStatusChange(row) {
       let text = row.status === "0" ? "启用" : "停用";
       this.$modal.confirm('确认要"' + text + '""' + row.userName + '"用户吗？').then(function() {
-        return changeUserStatus(row.userId, row.status);
+        return changeUserStatus(row.id, row.status);
       }).then(() => {
         this.$modal.msgSuccess(text + "成功");
       }).catch(function() {
@@ -512,12 +515,12 @@ export default {
     // 表单重置
     reset() {
       this.form = {
-        userId: undefined,
+        id: undefined,
         deptId: undefined,
         userName: undefined,
         nickName: undefined,
         password: undefined,
-        phonenumber: undefined,
+        phoneNumber: undefined,
         email: undefined,
         sex: undefined,
         status: "0",
@@ -542,7 +545,7 @@ export default {
     },
     // 多选框选中数据
     handleSelectionChange(selection) {
-      this.ids = selection.map(item => item.userId);
+      this.ids = selection.map(item => item.id);
       this.single = selection.length != 1;
       this.multiple = !selection.length;
     },
@@ -573,7 +576,7 @@ export default {
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
-      const userId = row.userId || this.ids;
+      const userId = row.id || this.ids;
       getUser(userId).then(response => {
         this.form = response.data;
         this.postOptions = response.posts;
@@ -599,21 +602,21 @@ export default {
           }
         },
       }).then(({ value }) => {
-          resetUserPwd(row.userId, value).then(response => {
+          resetUserPwd(row.id, value).then(response => {
             this.$modal.msgSuccess("修改成功，新密码是：" + value);
           });
         }).catch(() => {});
     },
     /** 分配角色操作 */
     handleAuthRole: function(row) {
-      const userId = row.userId;
+      const userId = row.id;
       this.$router.push("/system/user-auth/role/" + userId);
     },
     /** 提交按钮 */
     submitForm: function() {
       this.$refs["form"].validate(valid => {
         if (valid) {
-          if (this.form.userId != undefined) {
+          if (this.form.id != undefined) {
             updateUser(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
@@ -631,7 +634,7 @@ export default {
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      const userIds = row.userId || this.ids;
+      const userIds = row.id || this.ids;
       this.$modal.confirm('是否确认删除用户编号为"' + userIds + '"的数据项？').then(function() {
         return delUser(userIds);
       }).then(() => {
