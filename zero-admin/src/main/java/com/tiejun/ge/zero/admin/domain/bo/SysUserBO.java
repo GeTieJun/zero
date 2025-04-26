@@ -1,5 +1,6 @@
 package com.tiejun.ge.zero.admin.domain.bo;
 
+import com.tiejun.ge.zero.common.domain.BusinessBO;
 import lombok.Data;
 
 import java.util.Date;
@@ -11,7 +12,7 @@ import java.util.Date;
  * @create: 2024-12-05 20:26
  **/
 @Data
-public class SysUserBO {
+public class SysUserBO implements BusinessBO {
 
     /**
      * 用户id
@@ -82,4 +83,19 @@ public class SysUserBO {
      * 删除标志 1:已删除|0:未删除
      */
     private String delFlag;
+
+    /**
+     * 起始时间
+     */
+    private Date startTime;
+
+    /**
+     * 结束时间
+     */
+    private Date endTime;
+
+    /**
+     * 创建时间
+     */
+    private Date createTime;
 }

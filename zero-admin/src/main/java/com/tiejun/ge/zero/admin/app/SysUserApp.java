@@ -1,12 +1,13 @@
 package com.tiejun.ge.zero.admin.app;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.tiejun.ge.zero.admin.domain.bo.SysUserBO;
+import com.tiejun.ge.zero.admin.domain.dto.SysUserDTO;
 import com.tiejun.ge.zero.admin.server.SysRoleServer;
 import com.tiejun.ge.zero.admin.server.SysUserServer;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * @program: zero
@@ -23,8 +24,7 @@ public class SysUserApp {
     @Resource
     private SysRoleServer sysRoleServer;
 
-    public List<SysUserBO> list() {
-        return sysUserServer.selectList(new SysUserBO());
+    public IPage<SysUserBO> page(SysUserDTO sysUserDTO) {
+        return sysUserServer.page(sysUserDTO.getPageNum(), sysUserDTO.getPageSize() , sysUserDTO.toBO());
     }
-
 }

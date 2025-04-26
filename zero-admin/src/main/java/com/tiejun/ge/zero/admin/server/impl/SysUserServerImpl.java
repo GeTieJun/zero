@@ -1,5 +1,6 @@
 package com.tiejun.ge.zero.admin.server.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.tiejun.ge.zero.admin.domain.bo.SysUserBO;
 import com.tiejun.ge.zero.admin.repository.SysUserRepository;
 import com.tiejun.ge.zero.admin.server.SysUserServer;
@@ -48,5 +49,10 @@ public class SysUserServerImpl implements SysUserServer {
     @Override
     public SysUserBO detailByUserName(String userName) {
         return sysUserRepository.detailByUserName(userName);
+    }
+
+    @Override
+    public IPage<SysUserBO> page(int pageNum, int pageSize, SysUserBO sysUserBO) {
+        return sysUserRepository.page(pageNum, pageSize, sysUserBO);
     }
 }

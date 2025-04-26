@@ -45,6 +45,8 @@ spring:
         max-active: 8
         # 从连接池获取连接 最大超时时间，小于等于0则表示不会超时
         max-wait: -1ms
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
 
 
 mybatis-plus:
