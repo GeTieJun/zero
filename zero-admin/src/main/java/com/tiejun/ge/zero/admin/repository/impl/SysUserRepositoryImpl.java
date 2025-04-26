@@ -3,6 +3,8 @@ package com.tiejun.ge.zero.admin.repository.impl;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.tiejun.ge.zero.admin.domain.bo.SysUserBO;
 import com.tiejun.ge.zero.admin.domain.po.SysUserPO;
 import com.tiejun.ge.zero.admin.mapper.SysUserMapper;
@@ -70,5 +72,16 @@ public class SysUserRepositoryImpl implements SysUserRepository {
         queryWrapper.eq(SysUserPO::getUserName, userName);
         SysUserPO sysUserPO = sysUserMapper.selectOne(queryWrapper);
         return ObjectUtil.isNull(sysUserPO) ? null : sysUserPO.toBO();
+    }
+
+    @Override
+    public IPage<SysUserBO> page(int pageNum, int pageSize, SysUserBO sysUserBO) {
+        LambdaQueryWrapper<SysUserPO> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.like(ObjectUtil.isNotEmpty(sysUserBO.getUserName()), SysUserPO::getUserName, sysUserBO.getUserName());
+        queryWrapper.likeLeft(ObjectUtil.isNotEmpty(sysUserBO.getPhoneNumber()), SysUserPO::getPhoneNumber, sysUserBO.getPhoneNumber());
+        queryWrapper.ge(ObjectUtil.isNotEmpty(sysUserBO.getStartTime()) && ObjectUtil.isNotEmpty(sysUserBO.getEndTime()), SysUserPO::getCreateTime, sysUserBO.getStartTime());
+        queryWrapper.le(ObjectUtil.isNotEmpty(sysUserBO.getStartTime()) && ObjectUtil.isNotEmpty(sysUserBO.getEndTime()), SysUserPO::getCreateTime, sysUserBO.getEndTime());
+        IPage<SysUserPO> sysUserPOPage = sysUserMapper.selectPage(Page.of(pageNum, pageSize), queryWrapper);
+        return sysUserPOPage.convert(SysUserPO::toBO);
     }
 }
