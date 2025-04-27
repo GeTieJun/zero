@@ -207,15 +207,21 @@
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-row>
           <el-col :span="12">
+            <el-form-item v-if="form.id == undefined" label="用户名称" prop="userName">
+              <el-input v-model="form.userName" placeholder="请输入用户名称" maxlength="30" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
             <el-form-item label="用户昵称" prop="nickName">
               <el-input v-model="form.nickName" placeholder="请输入用户昵称" maxlength="30" />
             </el-form-item>
           </el-col>
-          <el-col :span="12">
-            <el-form-item label="归属部门" prop="deptId">
-              <treeselect v-model="form.deptId" :options="deptOptions" :show-count="true" placeholder="请选择归属部门" />
-            </el-form-item>
-          </el-col>
+
+<!--          <el-col :span="12">-->
+<!--            <el-form-item label="归属部门" prop="deptId">-->
+<!--              <treeselect v-model="form.deptId" :options="deptOptions" :show-count="true" placeholder="请选择归属部门" />-->
+<!--            </el-form-item>-->
+<!--          </el-col>-->
         </el-row>
         <el-row>
           <el-col :span="12">
@@ -230,16 +236,12 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="12">
-            <el-form-item v-if="form.id == undefined" label="用户名称" prop="userName">
-              <el-input v-model="form.userName" placeholder="请输入用户名称" maxlength="30" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item v-if="form.id == undefined" label="用户密码" prop="password">
-              <el-input v-model="form.password" placeholder="请输入用户密码" type="password" maxlength="20" show-password/>
-            </el-form-item>
-          </el-col>
+
+<!--          <el-col :span="12">-->
+<!--            <el-form-item v-if="form.id == undefined" label="用户密码" prop="password">-->
+<!--              <el-input v-model="form.password" placeholder="请输入用户密码" type="password" maxlength="20" show-password/>-->
+<!--            </el-form-item>-->
+<!--          </el-col>-->
         </el-row>
         <el-row>
           <el-col :span="12">
@@ -251,49 +253,55 @@
 <!--                  :label="dict.label"-->
 <!--                  :value="dict.value"-->
 <!--                ></el-option>-->
+                <el-option
+                  v-for="item in userSexOptions"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
-            <el-form-item label="状态">
-              <el-radio-group v-model="form.status">
+<!--          <el-col :span="12">-->
+<!--            <el-form-item label="状态">-->
+<!--              <el-radio-group v-model="form.status">-->
 <!--                <el-radio-->
 <!--                  v-for="dict in dict.type.sys_normal_disable"-->
 <!--                  :key="dict.value"-->
 <!--                  :label="dict.value"-->
 <!--                >{{dict.label}}</el-radio>-->
-              </el-radio-group>
-            </el-form-item>
-          </el-col>
+<!--              </el-radio-group>-->
+<!--            </el-form-item>-->
+<!--          </el-col>-->
         </el-row>
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="岗位">
-              <el-select v-model="form.postIds" multiple placeholder="请选择岗位">
-                <el-option
-                  v-for="item in postOptions"
-                  :key="item.postId"
-                  :label="item.postName"
-                  :value="item.postId"
-                  :disabled="item.status == 1"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="角色">
-              <el-select v-model="form.roleIds" multiple placeholder="请选择角色">
-                <el-option
-                  v-for="item in roleOptions"
-                  :key="item.roleId"
-                  :label="item.roleName"
-                  :value="item.roleId"
-                  :disabled="item.status == 1"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
+<!--        <el-row>-->
+<!--          <el-col :span="12">-->
+<!--            <el-form-item label="岗位">-->
+<!--              <el-select v-model="form.postIds" multiple placeholder="请选择岗位">-->
+<!--                <el-option-->
+<!--                  v-for="item in postOptions"-->
+<!--                  :key="item.postId"-->
+<!--                  :label="item.postName"-->
+<!--                  :value="item.postId"-->
+<!--                  :disabled="item.status == 1"-->
+<!--                ></el-option>-->
+<!--              </el-select>-->
+<!--            </el-form-item>-->
+<!--          </el-col>-->
+<!--          <el-col :span="12">-->
+<!--            <el-form-item label="角色">-->
+<!--              <el-select v-model="form.roleIds" multiple placeholder="请选择角色">-->
+<!--                <el-option-->
+<!--                  v-for="item in roleOptions"-->
+<!--                  :key="item.roleId"-->
+<!--                  :label="item.roleName"-->
+<!--                  :value="item.roleId"-->
+<!--                  :disabled="item.status == 1"-->
+<!--                ></el-option>-->
+<!--              </el-select>-->
+<!--            </el-form-item>-->
+<!--          </el-col>-->
+<!--        </el-row>-->
         <el-row>
           <el-col :span="24">
             <el-form-item label="备注">
@@ -341,7 +349,7 @@
 </template>
 
 <script>
-import { listUser, getUser, delUser, addUsdicter, updateUser, resetUserPwd, changeUserStatus, deptTreeSelect } from "@/api/system/user";
+import { listUser, getUser, delUser, addUser, updateUser, resetUserPwd, changeUserStatus, deptTreeSelect } from "@/api/system/user";
 import { getToken } from "@/utils/auth";
 import Treeselect from "@riophae/vue-treeselect";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
@@ -353,7 +361,7 @@ export default {
   data() {
     return {
       // 遮罩层
-      loading: false,
+      loading: true,
       // 选中数组
       ids: [],
       // 非单个禁用
@@ -374,8 +382,6 @@ export default {
       open: false,
       // 部门名称
       deptName: undefined,
-      // 默认密码
-      initPassword: undefined,
       // 日期范围
       dateRange: [],
       // 岗位选项
@@ -383,11 +389,24 @@ export default {
       // 角色选项
       roleOptions: [],
       // 表单参数
-      form: {},
+      form: {
+        sex: "0"
+      },
       defaultProps: {
         children: "children",
         label: "label"
       },
+      userSexOptions:[{
+        value: '0',
+        label: '男'
+      }, {
+        value: '1',
+        label: '女'
+      }, {
+        value: '2',
+        label: '未知'
+      }],
+
       // 用户导入参数
       upload: {
         // 是否显示弹出层（用户导入）
@@ -460,19 +479,13 @@ export default {
     }
   },
   created() {
-    console.log("qqqqabcdef")
     this.getList();
     // this.getDeptTree();
-    // this.getConfigKey("sys.user.initPassword").then(response => {
-    //   this.initPassword = response.msg;
-    // });
   },
   methods: {
     /** 查询用户列表 */
     getList() {
       this.loading = true;
-      console.log("abcdef")
-      // console.log(...this.queryParams)
       listUser(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
           this.userList = response.data.records;
           this.total = response.data.total;
@@ -565,13 +578,8 @@ export default {
     /** 新增按钮操作 */
     handleAdd() {
       this.reset();
-      getUser().then(response => {
-        this.postOptions = response.posts;
-        this.roleOptions = response.roles;
         this.open = true;
         this.title = "添加用户";
-        this.form.password = this.initPassword;
-      });
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
