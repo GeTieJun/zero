@@ -56,6 +56,26 @@ public class SysUserDTO implements FacadeDTO {
      */
     private Date endTime;
 
+    /**
+     * 用户id
+     */
+    private String userId;
+
+    /**
+     * 用户昵称
+     */
+    private String nickName;
+
+    /**
+     * 用户邮箱
+     */
+    private String email;
+
+    /**
+     * 用户性别(0:男|1:女|2:未知)
+     */
+    private String sex;
+
     @Override
     public SysUserBO toBO() {
         return BeanUtil.copyProperties(this, SysUserBO.class);

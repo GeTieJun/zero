@@ -48,6 +48,10 @@ spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
 
+# 临时采用配置，后期设置字典值
+system:
+  user:
+    initPassword: admin123
 
 mybatis-plus:
   mapper-locations: classpath:/mapper/*.xml
