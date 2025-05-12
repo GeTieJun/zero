@@ -64,4 +64,13 @@ public class Constants {
          */
         public static final String HTTPS = "https://";
     }
+
+    public class DataBase {
+
+        public static final String NOT_DELETE = "0";
+    }
+
+    public class Log {
+        public static final String LOG_MDC_ID = "trace_id";
+    }
 }

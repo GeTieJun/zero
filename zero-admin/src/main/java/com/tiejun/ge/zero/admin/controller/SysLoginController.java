@@ -6,6 +6,7 @@ import com.tiejun.ge.zero.admin.app.SysMenuApp;
 import com.tiejun.ge.zero.admin.app.SysUserApp;
 import com.tiejun.ge.zero.admin.domain.dto.UserLoginDTO;
 import com.tiejun.ge.zero.common.response.AjaxResult;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,6 +22,7 @@ import java.util.HashMap;
  * @create: 2024-12-06 21:05
  **/
 @RestController
+@Slf4j
 public class SysLoginController {
 
 
@@ -40,6 +42,7 @@ public class SysLoginController {
      */
     @PostMapping("/login")
     public AjaxResult login(@RequestBody UserLoginDTO userLoginDTO) {
+        log.info(">>SysLoginController login method. ");
         String token = sysLoginApp.login(userLoginDTO);
         return AjaxResult.success(MapUtil.builder(new HashMap<>()).put("token", token).build());
     }

@@ -3,15 +3,15 @@ package com.tiejun.ge.zero.system.authenticate.service;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import com.tiejun.ge.zero.common.config.redis.RedisCache;
 import com.tiejun.ge.zero.common.constant.Constants;
-import com.tiejun.ge.zero.common.config.redis.*;
 import com.tiejun.ge.zero.system.authenticate.domain.LoginUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit;
  * @author: getiejun
  * @create: 2024-12-15 17:07
  **/
-@Component
+@Configuration
 @Slf4j
 public class TokenService {
 
